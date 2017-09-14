@@ -1,0 +1,30 @@
+{
+  "name": "react-append",
+  "version": "0.1.0",
+  "description": "Render React components at the end of the body",
+  "main": "lib/index.js",
+  "typings": "./lib/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/esperco/react-append.git"
+  },
+  "author": "Andrew Fong <id@andrewfong.com>",
+  "homepage": "https://github.com/esperco/react-append",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/sinon": "^2.3.2",
+    "@types/tape": "^4.2.30",
+    "sinon": "^2.3.7",
+    "tap-spec": "^4.1.1",
+    "tape": "^4.8.0",
+    "ts-node": "^3.1.0",
+    "tslint": "^5.4.3",
+    "typescript": "^2.4.1"
+  },
+  "dependencies": {
+    "tslib": "^1.7.1"
+  },
+  "files": [
+    "src"
+  ]
+}
