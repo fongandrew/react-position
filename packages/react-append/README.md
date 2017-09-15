@@ -45,7 +45,7 @@ const EvilTwin = append({
 
   // Component that appears at end of body
   append: props => <div className="at-the-end">
-    Hello, I am { props.name }'s evil twin.
+    Hello, I am also { props.name }.
     I get appended to the very end of the body.
   </div>
 });
@@ -74,7 +74,7 @@ This result in our DOM looking like this:
   </div>
   <div id="bob">
     <div className="at-the-end">
-      Hello, I am Bob's evil twin.
+      Hello, I am also Bob.
       I get appended to the very end of the body.
     </div>
   </div>
