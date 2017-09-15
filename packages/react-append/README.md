@@ -51,8 +51,8 @@ const EvilTwin = append({
 });
 
 const MyApp = () => <div className="my-app">
-  <EvilTwin name="Bob">
-</div>
+  <EvilTwin name="Bob" />
+</div>;
 
 ReactDOM.render(
   <MyApp />, 
