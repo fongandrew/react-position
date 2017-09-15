@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
-import withBody from './test/with-body';
 import test from './test/sandbox';
 import append from './index';
 
@@ -27,12 +26,11 @@ const Wrapper = (p: { name: string; childContent: string }) =>
 // Helper function that returns a promise on next animation tick
 const nextFrame = () => new Promise(r => window.requestAnimationFrame(r));
 
+test('initial render', async t => {
+  // Pre-fill DOM with some stuff so we can check appended content is at
+  // the *end* of the body
+  document.body.innerHTML = '<header></header><main></main><footer></footer>';
 
-// Pre-fill DOM with some stuff to make sure appended content is at *end*
-// of the body
-const base = `<header></header><main></main><footer></footer>`;
-
-test('initial render', t => withBody(base, async () => {
   let name = 'MyName';
   let childContent = 'Hello child.';
   let wrapper = mount(<Wrapper name={name} childContent={childContent} />);
@@ -68,10 +66,10 @@ test('initial render', t => withBody(base, async () => {
     append.textContent, childContent,
     'renders appended children'
   );
-}));
+});
 
 
-test('updates and unmount', t => withBody(async () => {
+test('updates and unmount', async t => {
   let name = 'MyName';
   let childContent = 'Hello child.';
   let wrapper = mount(<Wrapper name={name} childContent={childContent} />);
@@ -103,10 +101,10 @@ test('updates and unmount', t => withBody(async () => {
     !document.getElementById('append-' + name),
     'removes container on unmount'
   );
-}));
+});
 
 
-test('multiple appends', t => withBody(async () => {
+test('multiple appends', async t => {
   let name1 = 'name-1';
   let name2 = 'name-2';
   let wrapper1 = mount(<Wrapper name={name1} childContent={''} />);
@@ -126,4 +124,4 @@ test('multiple appends', t => withBody(async () => {
   t.not(document.getElementById(name1), 'unmounts element at old ID' );
   t.assert(document.getElementById(name3), 'renders element with new ID');
   t.assert(document.getElementById(name2), 'other ID is untouched');
-}));
+});

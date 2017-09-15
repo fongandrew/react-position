@@ -75,14 +75,20 @@ const wrapForSandbox = (t: Test) => (tc: SandboxTestCase) => {
   // Create sinon sandbox -- restore and call appropriate Tape assertion
   // at the end of test.
   const sandbox = sinon.sandbox.create();
+
+  // Reset the DOM
+  document.body.innerHTML = '';
+
   Promise.resolve(tc(assert, sandbox)).then(
     () => {
       sandbox.restore();
+      document.body.innerHTML = '';
       t.end();
     },
 
     (err) => {
       sandbox.restore();
+      document.body.innerHTML = '';
       console.error(err); // Get proper stack trace
       t.error(err);
     }
