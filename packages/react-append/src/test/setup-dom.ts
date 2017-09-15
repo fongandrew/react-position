@@ -10,7 +10,7 @@ import { JSDOM } from 'jsdom';
 declare var global: any;
 
 const setupDOM = () => {
-  const dom = new JSDOM('<!doctype html><html><body></body></html>');
+  const dom = new JSDOM(`<!doctype html><html><body></body></html>`);
   global.window = dom.window;
   global.document = dom.window.document;
   global.navigator = { userAgent: 'node.js' };
@@ -21,9 +21,5 @@ const setupDOM = () => {
     (fn: () => void) => setTimeout(fn, 1000 / 60);
 };
 
-const withDOM = (cb: () => void) => {
-  setupDOM();
-  cb();
-};
-
-export default withDOM;
+// On init
+setupDOM();
