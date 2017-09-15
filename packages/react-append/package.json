@@ -12,8 +12,12 @@
   "homepage": "https://github.com/esperco/react-append",
   "license": "MIT",
   "devDependencies": {
+    "@types/enzyme": "^2.8.7",
+    "@types/jsdom": "^11.0.2",
     "@types/sinon": "^2.3.2",
     "@types/tape": "^4.2.30",
+    "enzyme": "^2.9.1",
+    "jsdom": "^11.2.0",
     "sinon": "^2.3.7",
     "tap-spec": "^4.1.1",
     "tape": "^4.8.0",
@@ -22,6 +26,10 @@
     "typescript": "^2.4.1"
   },
   "dependencies": {
+    "@types/react": "^16.0.5",
+    "@types/react-dom": "^15.5.4",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
     "tslib": "^1.7.1"
   },
   "files": [
