@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
-import test from '../../../lib/sandbox';
+import test from 'test-helpers/sandbox';
 import append from './index';
 
 interface TestProps {

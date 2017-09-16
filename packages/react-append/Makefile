@@ -15,5 +15,6 @@ build: clean
 test:
 	ts-node --project tsconfig.test.json \
 		../../node_modules/.bin/tape \
-			-r '../../lib/setup-dom.ts' \
+			-r tsconfig-paths/register \
+			-r '../../test-helpers/setup-dom.ts' \
 			'src/**/*.test.*' | tap-spec
