@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "outDir": "./lib",
     "target": "es5",
     "declaration": true,
     "sourceMap": false,

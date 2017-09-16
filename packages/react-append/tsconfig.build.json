@@ -1,13 +1,6 @@
 {
-  "extends": "./tsconfig",
+  "extends": "../../tsconfig.build.json",
   "compilerOptions": {
-    "noUnusedLocals": true
-  },
-  "exclude": [
-    "node_modules",
-    "example",
-    "lib",
-    "src/test/**",
-    "**/*.test.*"
-  ]
+    "outDir": "./lib"
+  }
 }
