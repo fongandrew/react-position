@@ -6,7 +6,7 @@
   "exclude": [
     "node_modules",
     "example",
-    "lib",
+    "packages/**/lib",
     "**/*.test.*"
   ]
 }

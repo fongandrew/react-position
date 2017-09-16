@@ -12,9 +12,6 @@ clean:
 build: clean
 	tsc -p tsconfig.build.json
 
-lint:
-	tslint --type-check --project tsconfig.build.json
-
 test:
 	ts-node --project tsconfig.test.json \
 		../../node_modules/.bin/tape \
