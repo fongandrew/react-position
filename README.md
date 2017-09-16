@@ -1,7 +1,6 @@
 React Append
 ==============
 [![Build Status](https://travis-ci.org/esperco/react-append.svg?branch=master)](https://travis-ci.org/esperco/react-append)
-[![npm version](https://badge.fury.io/js/react-append.svg)](https://badge.fury.io/js/react-append)
 
 Sometimes it's helpful to have React components live in one part of an
 element tree but render to a part of the DOM that normally doesn't correspond
