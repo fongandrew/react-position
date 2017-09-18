@@ -25,8 +25,8 @@ class App extends React.Component<{}, {}> {
       <div className="demo-container">
         <h2>Anchored Element</h2>
         <p>
-          This button lives several layers deep in our element tree, but
-          clicking it will append a div to the end of the body.
+          This button opens a div that is positioned relative to the position
+          of the button (but still lives at the end of the body).
         </p>
         <div>
           <Anchor />

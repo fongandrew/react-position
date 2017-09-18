@@ -9,18 +9,26 @@ interface Props {
 const AnchorContent = anchor({
   id: 'anchor-main',
   inline: (p: Props) => <button onClick={p.onToggle}>
-    { p.active ? 'Hide anchored content' : 'Show anchored content '}
+    Show anchored content
   </button>,
   append: ({ ownProps, Wrapper }: AnchorProps<Props>) => ownProps.active ?
-    <Wrapper>
+    <Wrapper id="wrapper">
       <div style={{
         position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        border: '5px solid #fc0'
-      }} />
+        top: '-1rem',
+        left: '-1rem',
+        right: '-1rem',
+        bottom: '-1rem',
+        background: 'rgba(255, 200, 0, 0.5)'
+      }}>
+        <button onClick={ownProps.onToggle} style={{
+          position: 'absolute',
+          right: '0.5rem',
+          top: '0.5rem'
+        }}>
+          &times;
+        </button>
+      </div>
     </Wrapper> : null
 });
 
