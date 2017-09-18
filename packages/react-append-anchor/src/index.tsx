@@ -12,7 +12,7 @@ export interface AnchorProps<P> {
   ownProps: P;
 
   // Wrapper element to absolutely position children
-  Wrapper: Component<{ children?: React.ReactNode }>;
+  Wrapper: Component<React.HTMLAttributes<HTMLDivElement>>;
 
   // Bounding rectange of anchor element
   anchorRect: ClientRect;
@@ -35,22 +35,25 @@ export default function<P>(opts: Opts<P>): Component<P> {
   // Related: (https://github.com/Microsoft/TypeScript/issues/14107)
   const appendElm = opts.append as React.ComponentClass<AnchorProps<P>>;
 
-  return class Anchor extends React.Component<P, {}> {
-    render() {
-      // Needed for absolute positioning of append element (can be body
-      // too, but just check it's consistent with renderAppend)
-      document.documentElement.style.position = 'relative';
+  // Needed for absolute positioning of append element (can be body
+  // too, but just check it's consistent with renderAppend)
+  document.documentElement.style.position = 'relative';
 
-      // Pass wrapped inline/append elements
-      let appendComponent = append({
+  return class Anchor extends React.Component<P, {}> {
+    // The wrapped Appender component. Important to maintain reference so
+    // that re-renders don't unmount the prior component.
+    protected appendComponent: React.ComponentClass<P>;
+
+    constructor(props: P) {
+      super(props);
+      this.appendComponent = append({
         ...opts,
         append: this.renderAppend
       });
+    }
 
-      // Type as any to get around
-      // https://github.com/Microsoft/TypeScript/issues/10727
-      let { children, ...props } = this.props as any;
-      return React.createElement(appendComponent, props, children);
+    render() {
+      return React.createElement(this.appendComponent, this.props);
     }
 
     // Wrapper around append to set fixed positional element
@@ -94,10 +97,13 @@ export default function<P>(opts: Opts<P>): Component<P> {
 
       let anchorProps: AnchorProps<P> = {
         ownProps,
-        Wrapper: ({ children }: { children?: React.ReactNode }) =>
-          <div style={wrapperStyle}>
-            { children }
-          </div>,
+        Wrapper: props => <div 
+          { ...props }
+          style={{
+            ...wrapperStyle,
+            ...(props.style || {})
+          }}
+        />,
         anchorRect,
         anchorRectPct
       };
