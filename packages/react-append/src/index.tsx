@@ -124,7 +124,10 @@ const mount = (id: string) => {
 // Ensure element with ID is removed from DOM
 const clear = (id: string) => {
   let elm = document.getElementById(id);
-  if (elm && elm.parentNode) {
-    elm.parentNode.removeChild(elm);
+  if (elm) {
+    ReactDOM.unmountComponentAtNode(elm);
+    if (elm.parentNode) {
+      elm.parentNode.removeChild(elm);
+    }
   }
 };
