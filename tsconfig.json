@@ -21,7 +21,7 @@
     "paths": {
       "test-helpers/*": [ "test-helpers/*" ],
       "react-append": [ "packages/react-append/src/index" ],
-      "react-append-anchor": [ "packages/react-append-anchor/src/index" ]
+      "react-append-ref-elm": [ "packages/react-append-ref-elm/src/index" ]
     },
     "baseUrl": "."
   },

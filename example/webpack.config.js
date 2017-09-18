@@ -67,7 +67,7 @@ let config = {
     modules: [path.join(__dirname, 'src'), 'node_modules'],
     alias: {
       'react-append': package('react-append'),
-      'react-append-anchor': package('react-append-anchor')
+      'react-append-ref-elm': package('react-append-ref-elm')
     }
   },
 

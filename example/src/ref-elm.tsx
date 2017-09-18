@@ -1,18 +1,18 @@
 import * as React from 'react';
-import anchor, { AnchorProps } from 'react-append-anchor';
+import refElm, { RefElmProps } from 'react-append-ref-elm';
 
 interface Props {
   active: boolean;
   onToggle: () => void;
 }
 
-const AnchorContent = anchor({
+const AnchorContent = refElm({
   id: 'anchor-main',
   inline: (p: Props) => <button onClick={p.onToggle}>
     Show anchored content
   </button>,
-  append: ({ ownProps, Wrapper }: AnchorProps<Props>) => ownProps.active ?
-    <Wrapper id="wrapper">
+  append: ({ ownProps, RefDiv }: RefElmProps<Props>) => ownProps.active ?
+    <RefDiv>
       <div style={{
         position: 'absolute',
         top: '-1rem',
@@ -29,7 +29,7 @@ const AnchorContent = anchor({
           &times;
         </button>
       </div>
-    </Wrapper> : null
+    </RefDiv> : null
 });
 
 interface State {

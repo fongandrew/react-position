@@ -8,11 +8,11 @@ import * as ReactDOM from 'react-dom';
 import append, { Component } from 'react-append';
 
 // Additional props provided to append component with anchor
-export interface AnchorProps<P> {
+export interface RefElmProps<P> {
   ownProps: P;
 
   // Wrapper element to absolutely position children
-  Wrapper: Component<React.HTMLAttributes<HTMLDivElement>>;
+  RefDiv: Component<React.HTMLAttributes<HTMLDivElement>>;
 
   // Bounding rectange of anchor element
   anchorRect: ClientRect;
@@ -24,7 +24,7 @@ export interface AnchorProps<P> {
 export interface Opts<P> {
   id: string|((props: P) => string);
   inline: Component<P>;
-  append: Component<AnchorProps<P>>;
+  append: Component<RefElmProps<P>>;
 }
 
 // HOC
@@ -33,7 +33,7 @@ export default function<P>(opts: Opts<P>): Component<P> {
   // Typecast to avoid this error
   // (https://github.com/Microsoft/TypeScript/issues/15019)
   // Related: (https://github.com/Microsoft/TypeScript/issues/14107)
-  const appendElm = opts.append as React.ComponentClass<AnchorProps<P>>;
+  const appendElm = opts.append as React.ComponentClass<RefElmProps<P>>;
 
   // Needed for absolute positioning of append element (can be body
   // too, but just check it's consistent with renderAppend)
@@ -95,9 +95,9 @@ export default function<P>(opts: Opts<P>): Component<P> {
         width: anchorRect.width / viewportWidth
       };
 
-      let anchorProps: AnchorProps<P> = {
+      let anchorProps: RefElmProps<P> = {
         ownProps,
-        Wrapper: props => <div 
+        RefDiv: props => <div 
           { ...props }
           style={{
             ...wrapperStyle,

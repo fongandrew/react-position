@@ -4,7 +4,7 @@ require('index.css');
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import Append from './append';
-import Anchor from './anchor';
+import RefElm from './ref-elm';
 
 class App extends React.Component<{}, {}> {
   render() {
@@ -23,13 +23,13 @@ class App extends React.Component<{}, {}> {
       </div>
 
       <div className="demo-container">
-        <h2>Anchored Element</h2>
+        <h2>Reference Element</h2>
         <p>
           This button opens a div that is positioned relative to the position
           of the button (but still lives at the end of the body).
         </p>
         <div>
-          <Anchor />
+          <RefElm />
         </div>
       </div>
 
