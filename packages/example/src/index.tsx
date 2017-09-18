@@ -4,6 +4,7 @@ require('index.css');
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import Append from './append';
+import Anchor from './anchor';
 
 class App extends React.Component<{}, {}> {
   render() {
@@ -18,6 +19,17 @@ class App extends React.Component<{}, {}> {
         </p>
         <div>
           <Append />
+        </div>
+      </div>
+
+      <div className="demo-container">
+        <h2>Anchored Element</h2>
+        <p>
+          This button lives several layers deep in our element tree, but
+          clicking it will append a div to the end of the body.
+        </p>
+        <div>
+          <Anchor />
         </div>
       </div>
 
