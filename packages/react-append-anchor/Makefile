@@ -1,10 +1,13 @@
-.PHONY: default clean build lint test
+.PHONY: default setup clean build test
 
 # Put Node bins in path
 export PATH := ../../node_modules/.bin:$(PATH)
 export SHELL := /bin/bash
 
 default: build
+
+setup:
+	yarn install
 
 clean:
 	rm -rf lib
