@@ -20,8 +20,8 @@
     "lib": ["dom", "es6"],
     "paths": {
       "test-helpers/*": [ "test-helpers/*" ],
-      "react-append": [ "packages/react-append" ],
-      "react-append-anchor": [ "packages/react-append-anchor" ]
+      "react-append": [ "packages/react-append/src/index" ],
+      "react-append-anchor": [ "packages/react-append-anchor/src/index" ]
     },
     "baseUrl": "."
   },
