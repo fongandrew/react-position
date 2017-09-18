@@ -4,13 +4,6 @@
   "description": "Render React components at the end of the body",
   "main": "lib/index.js",
   "typings": "./lib/index.d.ts",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/esperco/react-append.git"
-  },
-  "author": "Andrew Fong <id@andrewfong.com>",
-  "homepage": "https://github.com/esperco/react-append",
-  "license": "MIT",
   "dependencies": {
     "@types/react": "^16.0.5",
     "@types/react-dom": "^15.5.4",
