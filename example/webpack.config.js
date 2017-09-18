@@ -4,6 +4,13 @@ const autoprefixer = require('autoprefixer'),
       ExtractTextPlugin = require('extract-text-webpack-plugin'),
       HtmlWebpackPlugin = require('html-webpack-plugin');
 
+// Helper to point to index.ts for aliased files 
+const package = name => path.join(
+  __dirname, '..', 'packages', name, 'src', 'index.tsx'
+);
+
+console.info(package('react-append'))
+
 // Actual config object
 let config = {
   entry: {
@@ -57,7 +64,11 @@ let config = {
 
   resolve: {
     extensions: ['.ts', '.js', '.tsx', '.jsx', '.json'],
-    modules: [path.join(__dirname, 'src'), 'node_modules']
+    modules: [path.join(__dirname, 'src'), 'node_modules'],
+    alias: {
+      'react-append': package('react-append'),
+      'react-append-anchor': package('react-append-anchor')
+    }
   },
 
   // Enable sourcemaps for debugging webpack's output.
