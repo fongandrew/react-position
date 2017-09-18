@@ -19,6 +19,7 @@ publish:
 
 setup:
 	yarn install
+	$(MAKE) -C example setup
 	lerna bootstrap
 
 lint:
