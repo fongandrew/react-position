@@ -1,4 +1,16 @@
-html, body {
-  padding: 0;
-  margin: 0;
+body {
+  margin: 1rem;
+  background: #fefefe;
+  color: #333;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+* + * { margin-top: 1rem; }
+
+h1, h2, h3, h4, h5, h6 { margin-top: 0; }
+
+.demo-container {
+  padding: 1rem;
+  border: 1px solid #ccc;
 }

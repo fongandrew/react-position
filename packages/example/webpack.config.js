@@ -7,7 +7,7 @@ const autoprefixer = require('autoprefixer'),
 // Actual config object
 let config = {
   entry: {
-    app: './src/index.ts',
+    app: './src/index.tsx'
   },
 
   output: {

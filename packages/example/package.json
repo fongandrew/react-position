@@ -11,6 +11,8 @@
     "react-dom": "^15.6.1"
   },
   "devDependencies": {
+    "@types/react": "^16.0.5",
+    "@types/react-dom": "^15.5.4",
     "autoprefixer": "^7.1.4",
     "css-loader": "^0.28.7",
     "extract-text-webpack-plugin": "^3.0.0",
