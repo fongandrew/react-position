@@ -7,7 +7,6 @@ interface Props {
 }
 
 const AnchorContent = refElm({
-  id: 'anchor-main',
   inline: (p: Props) => <button onClick={p.onToggle}>
     Show anchored content
   </button>,

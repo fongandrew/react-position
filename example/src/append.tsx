@@ -7,7 +7,6 @@ interface Props {
 }
 
 const AppendContent = append({
-  id: 'append-main',
   inline: (p: Props) => <button onClick={p.onToggle}>
     { p.active ? 'Hide appended content' : 'Show appended content '}
   </button>,

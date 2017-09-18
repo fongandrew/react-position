@@ -125,3 +125,50 @@ test('multiple appends', async t => {
   t.assert(document.getElementById(name3), 'renders element with new ID');
   t.assert(document.getElementById(name2), 'other ID is untouched');
 });
+
+
+test('optional ID', async t => {
+  const AppendNoId = append<TestProps>({
+    inline: p => <p id={'inline-' + p.name}>
+      { p.children }
+    </p>,
+    append: p => <div id={'append-' + p.name}>
+      { p.children }
+    </div>
+  });
+
+  let wrapper1 = mount(<AppendNoId name="A">Test A</AppendNoId>);
+  let wrapper2 = mount(<AppendNoId name="B">Test B</AppendNoId>);
+
+  // Wait a moment for requestAnimationFrame to kick in.
+  await nextFrame();
+
+  let appendA = document.getElementById('append-A')!;
+  t.equals(
+    appendA.textContent,
+    'Test A',
+    'creates new ID for each instance of wrapper'
+  );
+
+  let appendB = document.getElementById('append-B')!;
+  t.equals(
+    appendB.textContent,
+    'Test B',
+    'creates new ID for each instance of wrapper'
+  );
+
+  wrapper1.setProps({ children: 'Test C' });
+  wrapper2.setProps({ children: 'Test D' });
+  await nextFrame();
+
+  t.equals(
+    appendA.textContent,
+    'Test C',
+    'Updates component instances using same ID'
+  );
+  t.equals(
+    appendB.textContent,
+    'Test D',
+    'Updates component instnaces using same ID'
+  );
+});

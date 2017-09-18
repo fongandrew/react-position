@@ -16,7 +16,7 @@ export interface Opts<P> {
   // A unique identifier for where this component should insert its appended
   // component. Appends with the same id will replace any existing overlay
   // with that id.
-  id: string|((props: P) => string);
+  id?: string|((props: P) => string);
 
   // This gets rendered inline if provided
   inline: Component<P>;
@@ -25,6 +25,11 @@ export interface Opts<P> {
   // or remove overlay.
   append: Component<P>;
 }
+
+// Automatic asisgnment of ID if none provided
+let idCount = 0;
+const idPrefix = 'react-append-';
+const getAutoId = () => idPrefix + (idCount++);
 
 // HOC
 export default function<P>(opts: Opts<P>) {
@@ -39,6 +44,14 @@ export default function<P>(opts: Opts<P>) {
   const idFn = typeof id === 'string' ? () => id : id;
 
   return class Appender extends React.Component<P, {}> {
+    protected fallbackId = getAutoId();
+
+    // ID is per instance component -- allows separate append for each 
+    // component instance
+    getId(props: P) {
+      return idFn ? idFn(props) : this.fallbackId;
+    }
+
     // Render inline component
     render() {
       // Type as any to get around
@@ -52,8 +65,8 @@ export default function<P>(opts: Opts<P>) {
       rendering, so changing ID is generally not advised.
     */
     componentWillReceiveProps(nextProps: P) {
-      let thisId = idFn(this.props);
-      let nextId = idFn(nextProps);
+      let thisId = this.getId(this.props);
+      let nextId = this.getId(nextProps);
       if (thisId !== nextId) {
         clear(thisId);
       }
@@ -87,7 +100,7 @@ export default function<P>(opts: Opts<P>) {
       inside it.
     */
     renderAppend = () => {
-      let thisId = idFn(this.props);
+      let thisId = this.getId(this.props);
       let mountPoint = mount(thisId);
 
       // See comment in render method
@@ -106,7 +119,7 @@ export default function<P>(opts: Opts<P>) {
       window.setTimeout(this.clearAppend);
     }
 
-    clearAppend = () => clear(idFn(this.props));
+    clearAppend = () => clear(this.getId(this.props));
   };
 }
 

@@ -22,7 +22,7 @@ export interface RefElmProps<P> {
 }
 
 export interface Opts<P> {
-  id: string|((props: P) => string);
+  id?: string|((props: P) => string);
   inline: Component<P>;
   append: Component<RefElmProps<P>>;
 }
