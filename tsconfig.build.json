@@ -5,7 +5,6 @@
   },
   "exclude": [
     "node_modules",
-    "example",
     "packages/**/lib",
     "test-helpers",
     "**/*.test.*"
