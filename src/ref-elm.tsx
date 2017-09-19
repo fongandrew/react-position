@@ -28,7 +28,7 @@ export interface Opts<P> {
 }
 
 // HOC
-export default function<P>(opts: Opts<P>): Component<P> {
+export default function<P>(opts: Opts<P>): React.ComponentClass<P> {
 
   // Typecast to avoid this error
   // (https://github.com/Microsoft/TypeScript/issues/15019)
@@ -43,6 +43,9 @@ export default function<P>(opts: Opts<P>): Component<P> {
     // The wrapped Appender component. Important to maintain reference so
     // that re-renders don't unmount the prior component.
     protected appendComponent: React.ComponentClass<P>;
+
+    // The inline element instance we're referencing
+    protected refElm: Element|null;
 
     constructor(props: P) {
       super(props);
@@ -62,16 +65,20 @@ export default function<P>(opts: Opts<P>): Component<P> {
       return React.createElement(this.appendComponent, this.props);
     }
 
+    componentDidMount() {
+      this.refElm = ReactDOM.findDOMNode(this);
+    }
+
+    componentDidUpdate() {
+      this.refElm = ReactDOM.findDOMNode(this);
+    }
+
     // Wrapper around append to set fixed positional element
     renderAppend = (ownProps: P) => {
+      let refElm = this.refElm;
 
-      // Get inline DOM node
-      let refElm: Element;
-      try {
-        refElm = ReactDOM.findDOMNode(this);
-      } catch {
-        return null; // Unable fo find DOM node. Perhaps not mounted
-      }
+      // No DOM node. Perhaps not mounted yet.
+      if (! refElm) return null;
 
       let rect = refElm.getBoundingClientRect();
       let parent = document.documentElement;
