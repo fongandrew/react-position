@@ -1,12 +1,12 @@
 import * as React from 'react';
-import refElm, { RefElmProps } from 'react-append-ref-elm';
+import refElm, { RefElmProps } from 'react-append/ref-elm';
 
 interface Props {
   active: boolean;
   onToggle: () => void;
 }
 
-const AnchorContent = refElm({
+const RefElmContent = refElm({
   inline: (p: Props) => <button onClick={p.onToggle}>
     Show anchored content
   </button>,
@@ -35,14 +35,14 @@ interface State {
   active: boolean;
 }
 
-export default class AnchorContainer extends React.Component<{}, State> {
+export default class RefElmContainer extends React.Component<{}, State> {
   constructor(props: {}) {
     super(props);
     this.state = { active: false };
   }
 
   render() {
-    return <AnchorContent
+    return <RefElmContent
       active={this.state.active}
       onToggle={() => this.setState({ active: !this.state.active })}
     />;

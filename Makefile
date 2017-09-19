@@ -1,11 +1,5 @@
-# Get package subdirectories
-export PKGDIRS := $(wildcard packages/*)
-
-# Make targets for package directories
-export PKGCMDS := clean build test
-
 # Phone so pkg dir targets actually do something
-.PHONY: default setup $(PKGDIRS) $(PKGCMDS) 
+.PHONY: default setup clean build lint test
 
 # Put Node bins in path
 export PATH := node_modules/.bin:$(PATH)
@@ -13,13 +7,25 @@ export SHELL := /bin/bash
 
 default: build
 
-setup: $(PKGDIRS)
+setup:
 	yarn install
-	$(MAKE) -C example setup
 
-lint: $(PKGDIRS)
-	$(MAKE) -C example lint
+clean:
+	rm -rf lib
+	$(MAKE) -C example clean
+	
+build: clean
+	tsc -p tsconfig.build.json
 
-$(PKGCMDS): $(PKGDIRS)
-$(PKGDIRS):
-	$(MAKE) -C $@ $(MAKECMDGOALS)
+lint:
+	tslint --type-check --project tsconfig.json
+
+watch:
+	$(MAKE) -C example watch
+
+test:
+	ts-node --project tsconfig.test.json \
+		node_modules/.bin/tape \
+			-r tsconfig-paths/register \
+			-r './test-helpers/setup-dom.ts' \
+			'src/**/*.test.*' | tap-spec

@@ -1,11 +1,13 @@
 {
   "extends": "./tsconfig",
   "compilerOptions": {
-    "noUnusedLocals": true
+    "noUnusedLocals": true,
+    "outDir": "./lib"
   },
   "exclude": [
     "node_modules",
-    "packages/**/lib",
+    "lib",
+    "example",
     "test-helpers",
     "**/*.test.*"
   ]

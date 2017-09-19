@@ -1,11 +1,8 @@
-.PHONY: setup default clean build lint test
+.PHONY: default clean build watch
 
 # Put Node bins in path
-export PATH := ../node_modules/.bin:./node_modules/.bin:$(PATH)
+export PATH := ../node_modules/.bin:$(PATH)
 export SHELL := /bin/bash
-
-setup:
-	yarn install
 
 default: build
 
@@ -17,9 +14,3 @@ build: clean
 
 watch: clean
 	webpack-dev-server
-
-lint:
-	tslint --type-check --project tsconfig.json
-
-test:
-	echo "N/A"

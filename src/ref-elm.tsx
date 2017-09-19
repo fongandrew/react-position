@@ -5,7 +5,7 @@
 
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import append, { Component } from 'react-append';
+import append, { Component } from './append';
 
 // Additional props provided to append component with anchor
 export interface RefElmProps<P> {

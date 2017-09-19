@@ -1,6 +1,6 @@
 node_modules
-packages/**/lib
-packages/**/public
+lib
+example/public
 .tmp
 .DS_Store
 npm-debug.log

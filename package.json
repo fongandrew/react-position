@@ -1,28 +1,46 @@
 {
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/esperco/react-append.git"
-	},
-	"author": "Andrew Fong <id@andrewfong.com>",
-	"homepage": "https://github.com/esperco/react-append",
-	"license": "MIT",
-	"private": true,
-	"devDependencies": {
-		"@types/enzyme": "^2.8.7",
-		"@types/jsdom": "^11.0.2",
-		"@types/sinon": "^2.3.4",
-		"@types/tape": "^4.2.30",
-		"enzyme": "^2.9.1",
-		"jsdom": "^11.2.0",
-		"react": "^15.6.1",
-		"react-dom": "^15.6.1",
-		"react-test-renderer": "^15.6.1",
-		"sinon": "^3.2.1",
-		"tap-spec": "^4.1.1",
-		"tape": "^4.8.0",
-		"ts-node": "^3.3.0",
-		"tsconfig-paths": "^2.3.0",
-		"tslint": "^5.7.0",
-		"typescript": "^2.5.2"
-	}
+		"repository": {
+				"type": "git",
+				"url": "https://github.com/esperco/react-append.git"
+		},
+		"author": "Andrew Fong <id@andrewfong.com>",
+		"homepage": "https://github.com/esperco/react-append",
+		"license": "MIT",
+		"private": true,
+		"devDependencies": {
+				"@types/enzyme": "^2.8.7",
+				"@types/jsdom": "^11.0.2",
+				"@types/react": "^16.0.5",
+				"@types/react-dom": "^15.5.4",
+				"@types/sinon": "^2.3.4",
+				"@types/tape": "^4.2.30",
+				"autoprefixer": "^7.1.4",
+				"css-loader": "^0.28.7",
+				"enzyme": "^2.9.1",
+				"extract-text-webpack-plugin": "^3.0.0",
+				"html-webpack-plugin": "^2.30.1",
+				"jsdom": "^11.2.0",
+				"normalize.css": "^7.0.0",
+				"postcss-loader": "^2.0.6",
+				"react": "^15.6.1",
+				"react-dom": "^15.6.1",
+				"react-test-renderer": "^15.6.1",
+				"sinon": "^3.2.1",
+				"source-map-loader": "^0.2.1",
+				"style-loader": "^0.18.2",
+				"tap-spec": "^4.1.1",
+				"tape": "^4.8.0",
+				"ts-loader": "^2.3.7",
+				"ts-node": "^3.3.0",
+				"tsconfig-paths": "^2.3.0",
+				"tslint": "^5.7.0",
+				"typescript": "^2.5.2",
+				"webpack": "^3.6.0",
+				"webpack-dev-server": "^2.8.2"
+		},
+		"dependencies": {
+				"react": "^15.6.1",
+				"react-dom": "^15.6.1",
+				"tslib": "^1.7.1"
+		}
 }

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { mount } from 'enzyme';
 import nextFrame from 'test-helpers/next-frame';
 import test from 'test-helpers/sandbox';
-import appendRefElm from './index';
+import appendRefElm from './ref-elm';
 
 interface TestProps {
   name: string;

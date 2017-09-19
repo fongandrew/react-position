@@ -19,9 +19,7 @@
     "jsx": "react",
     "lib": ["dom", "es6"],
     "paths": {
-      "test-helpers/*": [ "test-helpers/*" ],
-      "react-append": [ "packages/react-append/src/index" ],
-      "react-append-ref-elm": [ "packages/react-append-ref-elm/src/index" ]
+      "test-helpers/*": [ "test-helpers/*" ]
     },
     "baseUrl": "."
   },

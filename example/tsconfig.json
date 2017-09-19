@@ -1,8 +1,27 @@
 {
-  "extends": "../tsconfig.json",
   "compilerOptions": {
-    "outDir": "public",
+    "target": "es5",
     "declaration": false,
-    "sourceMap": true
-  }
+    "sourceMap": true,
+    "importHelpers": true,
+    "noEmitHelpers": true,
+    "forceConsistentCasingInFileNames": true,
+    "alwaysStrict": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noImplicitReturns": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "noFallthroughCasesInSwitch": true,
+    "strictNullChecks": true,
+    "module": "es6",
+    "moduleResolution": "node",
+    "jsx": "react",
+    "lib": ["dom", "es6"],
+    "paths": {
+      "react-append": [ "../src/index" ],
+      "react-append/*": [ "../src/*" ]
+    },
+    "baseUrl": "."
+  } 
 }
