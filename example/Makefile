@@ -18,5 +18,8 @@ build: clean
 watch: clean
 	webpack-dev-server
 
+lint:
+	tslint --type-check --project tsconfig.json
+
 test:
 	echo "N/A"

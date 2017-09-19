@@ -22,7 +22,7 @@ interface State {
 export default class AppendContainer extends React.Component<{}, State> {
   constructor(props: {}) {
     super(props);
-    this.state = { active: false }
+    this.state = { active: false };
   }
 
   render() {

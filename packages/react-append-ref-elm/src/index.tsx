@@ -103,7 +103,7 @@ export default function<P>(opts: Opts<P>): Component<P> {
 
       let anchorProps: RefElmProps<P> = {
         ownProps,
-        RefDiv: props => <div 
+        RefDiv: props => <div
           { ...props }
           style={{
             ...wrapperStyle,

@@ -1,4 +1,4 @@
-.PHONY: default setup clean build test
+.PHONY: default setup clean build lint test
 
 # Put Node bins in path
 export PATH := ../../node_modules/.bin:$(PATH)
@@ -14,6 +14,9 @@ clean:
 
 build: clean
 	tsc -p tsconfig.build.json
+
+lint:
+	tslint --type-check --project tsconfig.json
 
 test:
 	ts-node --project tsconfig.test.json \

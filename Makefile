@@ -17,8 +17,8 @@ setup: $(PKGDIRS)
 	yarn install
 	$(MAKE) -C example setup
 
-lint:
-	tslint --type-check --project tsconfig.build.json
+lint: $(PKGDIRS)
+	$(MAKE) -C example lint
 
 $(PKGCMDS): $(PKGDIRS)
 $(PKGDIRS):

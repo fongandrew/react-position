@@ -46,7 +46,7 @@ export default function<P>(opts: Opts<P>) {
   return class Appender extends React.Component<P, {}> {
     protected fallbackId = getAutoId();
 
-    // ID is per instance component -- allows separate append for each 
+    // ID is per instance component -- allows separate append for each
     // component instance
     getId(props: P) {
       return idFn ? idFn(props) : this.fallbackId;
