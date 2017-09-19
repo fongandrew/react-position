@@ -11,6 +11,7 @@ declare var global: any;
 
 const setupDOM = () => {
   const dom = new JSDOM(`<!doctype html><html><body></body></html>`);
+  global.dom = dom; // For reconfiguration
   global.window = dom.window;
   global.document = dom.window.document;
   global.navigator = { userAgent: 'node.js' };
@@ -19,6 +20,10 @@ const setupDOM = () => {
   global.requestAnimationFrame =
     (dom.window.requestAnimationFrame as any) =
     (fn: () => void) => setTimeout(fn, 1000 / 60);
+};
+
+export const getDOM = (): JSDOM => {
+  return global.dom;
 };
 
 // On init
