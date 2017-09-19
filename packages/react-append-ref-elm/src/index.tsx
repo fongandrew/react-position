@@ -46,6 +46,12 @@ export default function<P>(opts: Opts<P>): Component<P> {
 
     constructor(props: P) {
       super(props);
+
+      // Attach name for debugging purposes
+      Object.defineProperty(this.renderAppend, 'name', {
+        value: 'RefElmAppend'
+      });
+
       this.appendComponent = append({
         ...opts,
         append: this.renderAppend
