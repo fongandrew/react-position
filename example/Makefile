@@ -12,5 +12,8 @@ clean:
 build: clean
 	webpack
 
+lint:
+	tslint --type-check --project tsconfig.json
+
 watch: clean
 	webpack-dev-server

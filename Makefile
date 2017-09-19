@@ -19,6 +19,7 @@ build: clean
 
 lint:
 	tslint --type-check --project tsconfig.json
+	$(MAKE) -C example lint
 
 watch:
 	$(MAKE) -C example watch
