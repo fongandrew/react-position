@@ -20,7 +20,7 @@
     "lib": ["dom", "es6"],
     "paths": {
       "react-append": [ "../src/index" ],
-      "react-append/*": [ "../src/*" ]
+      "react-append/lib/*": [ "../src/*" ]
     },
     "baseUrl": "."
   } 

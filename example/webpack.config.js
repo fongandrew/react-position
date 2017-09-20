@@ -59,7 +59,8 @@ let config = {
     extensions: ['.ts', '.js', '.tsx', '.jsx', '.json'],
     modules: [path.join(__dirname, 'src'), 'node_modules'],
     alias: {
-      'react-append': path.join(__dirname, '..', 'src')
+      'react-append$': path.join(__dirname, '..', 'src', 'index.ts'),
+      'react-append/lib': path.join(__dirname, '..', 'src')
     }
   },
 

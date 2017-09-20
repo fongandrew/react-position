@@ -1,6 +1,6 @@
 require('./tooltip.css');
 import * as React from 'react';
-import tooltip from 'react-append/tooltip';
+import tooltip from 'react-append/lib/tooltip';
 
 export default tooltip<React.HTMLAttributes<HTMLSpanElement>>({
   inline: ({ children, ...props }) => <span {...props}>

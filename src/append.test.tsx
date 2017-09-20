@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
 import test from 'test-helpers/sandbox';
-import append from './index';
+import append from './append';
 
 interface TestProps {
   name: string;

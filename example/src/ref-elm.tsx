@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { relativeToDocument } from 'react-append/position';
-import refElm, { RefElmProps } from 'react-append/ref-elm';
+import { relativeToDocument } from 'react-append/lib/position';
+import refElm, { RefElmProps } from 'react-append/lib/ref-elm';
 
 interface Props {
   active: boolean;
