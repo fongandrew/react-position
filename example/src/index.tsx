@@ -5,6 +5,10 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import Append from './append';
 import RefElm from './ref-elm';
+import Tooltip from './tooltip';
+
+// Needed for absolute positioning of append elements
+document.documentElement.style.position = 'relative';
 
 class App extends React.Component<{}, {}> {
   render() {
@@ -31,6 +35,14 @@ class App extends React.Component<{}, {}> {
         <div>
           <RefElm />
         </div>
+      </div>
+
+      <div className="demo-container">
+        <h2>Tooltip</h2>
+        <p>
+          Hover over <Tooltip><em>this text here</em></Tooltip> to trigger
+          a tooltip.
+        </p>
       </div>
 
     </div>;
