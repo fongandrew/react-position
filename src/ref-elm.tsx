@@ -11,14 +11,8 @@ import append, { Component } from './append';
 export interface RefElmProps<P> {
   ownProps: P;
 
-  // Wrapper element to absolutely position children
-  RefDiv: Component<React.HTMLAttributes<HTMLDivElement>>;
-
-  // Bounding rectange of reference element
-  rect: ClientRect;
-
-  // Same, but with percentages
-  rectPct: ClientRect;
+  // Reference to inline elm
+  refElm: Element;
 }
 
 export interface Opts<P> {
@@ -34,10 +28,6 @@ export default function<P>(opts: Opts<P>): React.ComponentClass<P> {
   // (https://github.com/Microsoft/TypeScript/issues/15019)
   // Related: (https://github.com/Microsoft/TypeScript/issues/14107)
   const appendElm = opts.append as React.ComponentClass<RefElmProps<P>>;
-
-  // Needed for absolute positioning of append element (can be body
-  // too, but just check it's consistent with renderAppend)
-  document.documentElement.style.position = 'relative';
 
   return class RefElm extends React.Component<P, {}> {
     // The wrapped Appender component. Important to maintain reference so
@@ -75,53 +65,13 @@ export default function<P>(opts: Opts<P>): React.ComponentClass<P> {
 
     // Wrapper around append to set fixed positional element
     renderAppend = (ownProps: P) => {
-      let refElm = this.refElm;
-
       // No DOM node. Perhaps not mounted yet.
-      if (! refElm) return null;
+      if (! this.refElm) return null;
 
-      let rect = refElm.getBoundingClientRect();
-      let parent = document.documentElement;
-      let parentRect = parent.getBoundingClientRect();
-      let wrapperStyle: React.CSSProperties = {
-        position: 'absolute',
-        top: rect.top - parentRect.top,
-        left: rect.left - parentRect.left,
-        height: rect.height,
-        width: rect.width
-      };
-
-      let viewportWidth = Math.max(
-        document.documentElement.clientWidth,
-        window.innerWidth || 0
-      );
-      let viewportHeight = Math.max(
-        document.documentElement.clientHeight,
-        window.innerHeight || 0
-      );
-      let rectPct = {
-        top: rect.top / viewportHeight,
-        bottom: rect.bottom / viewportHeight,
-        height: rect.height / viewportHeight,
-        left: rect.left / viewportWidth,
-        right: rect.right / viewportWidth,
-        width: rect.width / viewportWidth
-      };
-
-      let anchorProps: RefElmProps<P> = {
+      return React.createElement(appendElm, {
         ownProps,
-        RefDiv: props => <div
-          { ...props }
-          style={{
-            ...wrapperStyle,
-            ...(props.style || {})
-          }}
-        />,
-        rect,
-        rectPct
-      };
-
-      return React.createElement(appendElm, anchorProps);
+        refElm: this.refElm
+      });
     }
   };
 }
