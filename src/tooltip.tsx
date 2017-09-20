@@ -70,7 +70,7 @@ export default function<P>(opts: Opts<P>): React.ComponentClass<P> {
     }
 
     renderTooltip = ({ refElm, ownProps }: RefElmProps<P>) => {
-      let { left, top, width, height } = relativeToDocument(refElm);
+      let { left, top, width } = relativeToDocument(refElm);
       return this.state.active ? <div style={{
         position: 'absolute',
         top,
