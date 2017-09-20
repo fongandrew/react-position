@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { relativeToDocument } from 'react-append/position';
 import refElm, { RefElmProps } from 'react-append/ref-elm';
 
 interface Props {
@@ -10,8 +11,11 @@ const RefElmContent = refElm({
   inline: (p: Props) => <button onClick={p.onToggle}>
     Show anchored content
   </button>,
-  append: ({ ownProps, RefDiv }: RefElmProps<Props>) => ownProps.active ?
-    <RefDiv>
+  append: ({ ownProps, refElm }: RefElmProps<Props>) => ownProps.active ?
+    <div style={{
+      position: 'absolute',
+      ...relativeToDocument(refElm)
+    }}>
       <div style={{
         position: 'absolute',
         top: '-1rem',
@@ -28,7 +32,7 @@ const RefElmContent = refElm({
           &times;
         </button>
       </div>
-    </RefDiv> : null
+    </div> : null
 });
 
 interface State {
