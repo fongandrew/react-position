@@ -59,7 +59,7 @@ export default function<P>(opts: Opts<P>): React.ComponentClass<P> {
 
     renderInline = (props: P) => {
       return React.createElement(inlineElm, {
-        // Type as any to get around 
+        // Type as any to get around
         // https://github.com/Microsoft/TypeScript/issues/10727
         ...(props as any),
         onMouseOver: this.activate,
