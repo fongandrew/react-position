@@ -43,6 +43,17 @@ class App extends React.Component<{}, {}> {
           Hover over <Tooltip><em>this text here</em></Tooltip> to trigger
           a tooltip.
         </p>
+        <div style={{ textAlign: 'center' }}>
+          <span style={{ float: 'left' }}>
+            <Tooltip><em>Left Tooltip</em></Tooltip>
+          </span>
+          <span style={{ float: 'right' }}>
+            <Tooltip><em>Right Tooltip</em></Tooltip>
+          </span>
+          <span>
+            <Tooltip><em>Center Tooltip</em></Tooltip>
+          </span>
+        </div>
       </div>
 
     </div>;
