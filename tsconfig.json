@@ -19,7 +19,8 @@
     "jsx": "react",
     "lib": ["dom", "es6"],
     "paths": {
-      "test-helpers/*": [ "test-helpers/*" ]
+      "test-helpers/*": [ "test-helpers/*" ],
+      "*": [ "./typings/*" ]
     },
     "baseUrl": "."
   },

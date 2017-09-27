@@ -1,4 +1,4 @@
-import test from 'test-helpers/sandbox';
+import test from '../test-helpers/sandbox';
 import { relativeToDocument, relativeToViewportPct } from './position';
 
 test('relativeToDocument', (t, s) => {

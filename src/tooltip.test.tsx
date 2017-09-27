@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { mount } from 'enzyme';
-import nextFrame from 'test-helpers/next-frame';
-import test from 'test-helpers/sandbox';
+import nextFrame from '../test-helpers/next-frame';
+import test from '../test-helpers/sandbox';
 import tooltip from './tooltip';
 
 const Tooltip = tooltip<React.HTMLAttributes<HTMLSpanElement>>({

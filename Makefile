@@ -27,6 +27,5 @@ watch:
 test:
 	ts-node --project tsconfig.test.json \
 		node_modules/.bin/tape \
-			-r tsconfig-paths/register \
 			-r './test-helpers/setup-dom.ts' \
 			'src/**/*.test.*' | tap-spec
