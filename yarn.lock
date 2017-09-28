@@ -1933,10 +1933,6 @@ ieee754@^1.1.4:
   version "1.1.8"
   resolved "https://registry.yarnpkg.com/ieee754/-/ieee754-1.1.8.tgz#be33d40ac10ef1926701f6f08a2d86fbfd1ad3e4"
 
-immutable@3.7.x:
-  version "3.7.6"
-  resolved "https://registry.yarnpkg.com/immutable/-/immutable-3.7.6.tgz#13b4d3cb12befa15482a26fe1b2ebae640071e4b"
-
 indexes-of@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/indexes-of/-/indexes-of-1.0.1.tgz#f30f716c8e2bd346c7b67d3df3915566a7c05607"
@@ -2410,7 +2406,7 @@ lodash.uniq@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.uniq/-/lodash.uniq-4.5.0.tgz#d0225373aeb652adc1bc82e4945339a842754773"
 
-lodash@3.10.x, lodash@^3.6.0:
+lodash@^3.6.0:
   version "3.10.1"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-3.10.1.tgz#5bf45e8e49ba4189e17d482789dfd15bd140b7b6"
 
@@ -3537,17 +3533,12 @@ react-dom@^16.0.0:
     object-assign "^4.1.1"
     prop-types "^15.6.0"
 
-react-shallow-testutils@2.0.x:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/react-shallow-testutils/-/react-shallow-testutils-2.0.0.tgz#9087b40b368b124674c7bfcf9fdd6ad983914a97"
-
-react-test-render@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/react-test-render/-/react-test-render-1.0.3.tgz#5cf02adde5350b7e807e9ddbd77a1d687d312d76"
+react-test-renderer@^16.0.0:
+  version "16.0.0"
+  resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-16.0.0.tgz#9fe7b8308f2f71f29fc356d4102086f131c9cb15"
   dependencies:
-    immutable "3.7.x"
-    lodash "3.10.x"
-    react-shallow-testutils "2.0.x"
+    fbjs "^0.8.16"
+    object-assign "^4.1.1"
 
 react@^16.0.0:
   version "16.0.0"

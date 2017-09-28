@@ -23,7 +23,7 @@
 				"normalize.css": "^7.0.0",
 				"postcss-loader": "^2.0.6",
 				"react": "^16.0.0",
-				"react-test-render": "^1.0.3",
+				"react-test-renderer": "^16.0.0",
 				"sinon": "^3.2.1",
 				"source-map-loader": "^0.2.1",
 				"style-loader": "^0.18.2",
