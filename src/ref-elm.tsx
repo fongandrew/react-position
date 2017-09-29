@@ -1,77 +1,111 @@
 /*
-  Extension of react-append where the appended element is positioned relative
-  to the location of the inline element.
+  HOC to create an appended element that depends on the presence of an
+  inline element (e.g. for positioning).
 */
 
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import append, { Component } from './append';
+import Append, { Props as AppendProps } from './append';
 
-// Additional props provided to append component with anchor
-export interface RefElmProps<P> {
-  ownProps: P;
-
-  // Reference to inline elm
-  refElm: Element;
+// Props for RefElm component
+export interface Props {
+  id?: string;
+  inline: React.ReactNode;
+  append: (refElm: Element) => React.ReactNode;
 }
 
-export interface Opts<P> {
-  id?: string|((props: P) => string);
-  inline: Component<P>;
-  append: Component<RefElmProps<P>>;
+// State for RefElm component -- we track passCount because we need to
+// render one set of elements (appended) only after another (inline) is done
+export interface State {
+  passCount: number;
 }
 
-// HOC
-export default function<P>(opts: Opts<P>): React.ComponentClass<P> {
 
-  // Typecast to avoid this error
-  // (https://github.com/Microsoft/TypeScript/issues/15019)
-  // Related: (https://github.com/Microsoft/TypeScript/issues/14107)
-  const appendElm = opts.append as React.ComponentClass<RefElmProps<P>>;
+// Wrapper class around inline components to ensure we can set ref -- also
+// controls unnecessary updates
+export class InlineWrapper extends React.Component<{
+  passCount: number;
+}, {}> {
+  // Only update on first pass
+  shouldComponentUpdate(nextProps: { passCount: number }) {
+    return nextProps.passCount === 0;
+  }
 
-  return class RefElm extends React.Component<P, {}> {
-    // The wrapped Appender component. Important to maintain reference so
-    // that re-renders don't unmount the prior component.
-    protected appendComponent: React.ComponentClass<P>;
+  render() {
+    return this.props.children as any; // TODO: Pending React v16 typing
+  }
+}
 
-    // The inline element instance we're referencing
-    protected refElm: Element|null;
 
-    constructor(props: P) {
-      super(props);
+// Wrapper class around Append to control unnecessary renders
+export class AppendWrapper extends React.Component<AppendProps & {
+  passCount: number;
+}, {}> {
+  // Only update on second pass
+  shouldComponentUpdate(nextProps: { passCount: number }) {
+    return nextProps.passCount === 1;
+  }
 
-      // Attach name for debugging purposes
-      Object.defineProperty(this.renderAppend, 'name', {
-        value: 'RefElmAppend'
-      });
+  render() {
+    let { passCount, ...props } = this.props;
+    return <Append {...props}>
+      { this.props.children }
+    </Append>;
+  }
+}
 
-      this.appendComponent = append({
-        ...opts,
-        append: this.renderAppend
-      });
+
+// Component to render inline elements first, then append
+export class RefElm extends React.Component<Props, State> {
+  // The inline component instance we're referencing
+  protected refElm: Element|null;
+
+  constructor(props: Props) {
+    super(props);
+    this.state = { passCount: 0 };
+  }
+
+  componentWillReceiveProps() {
+    this.setState({ passCount: 0 });
+  }
+
+  render() {
+    let { inline, append } = this.props;
+    return [
+      <InlineWrapper
+        key="inline"
+        ref={c => this.refElm = c && ReactDOM.findDOMNode(c)}
+        passCount={this.state.passCount}
+      >
+        { inline }
+      </InlineWrapper>,
+
+      this.refElm ? <AppendWrapper
+        id={this.props.id} key="append"
+        passCount={this.state.passCount}
+      >
+        { append(this.refElm) }
+      </AppendWrapper> : null
+    ] as any; // TODO: Typecast pending support for fragments in typing
+  }
+
+  componentDidMount() {
+    this.updateSelf();
+  }
+
+  componentDidUpdate() {
+    this.updateSelf();
+  }
+
+  // Trigger a second render with refElm
+  updateSelf() {
+    if (this.refElm && !this.state.passCount) {
+      this.setState({ passCount: 1 });
     }
+  }
+}
 
-    render() {
-      return React.createElement(this.appendComponent, this.props);
-    }
-
-    componentDidMount() {
-      this.refElm = ReactDOM.findDOMNode(this);
-    }
-
-    componentDidUpdate() {
-      this.refElm = ReactDOM.findDOMNode(this);
-    }
-
-    // Wrapper around append to set fixed positional element
-    renderAppend = (ownProps: P) => {
-      // No DOM node. Perhaps not mounted yet.
-      if (! this.refElm) return null;
-
-      return React.createElement(appendElm, {
-        ownProps,
-        refElm: this.refElm
-      });
-    }
-  };
+// Functional variant
+export default function(props: Props) {
+  return <RefElm {...props} />;
 }
