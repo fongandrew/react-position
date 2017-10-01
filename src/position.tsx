@@ -32,7 +32,7 @@ export const relativeToParent = (elm: Element, parent: Element) => {
 // Returns position values as percentage of viewport
 export const relativeToViewportPct = (elm: Element) => {
   let rect = elm.getBoundingClientRect();
-  let { width: viewportWidth, height: viewportHeight } = getViewportWidth();
+  let { width: viewportWidth, height: viewportHeight } = getViewportSize();
   return {
     top: rect.top / viewportHeight,
     height: rect.height / viewportHeight,
@@ -50,7 +50,7 @@ export const relativeToViewportPct = (elm: Element) => {
 };
 
 // Get viewport dimensions
-export const getViewportWidth = () => {
+export const getViewportSize = () => {
   let width = Math.max(
     document.documentElement.clientWidth,
     window.innerWidth || 0

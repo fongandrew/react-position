@@ -4,10 +4,12 @@
 */
 
 import * as React from 'react';
-import { Component } from './append';
-import { relativeToDocument, getViewportWidth } from './position';
-import refElm, { RefElmProps } from './ref-elm';
+import { relativeToDocument, getViewportSize } from './position';
+import refElm from './ref-elm';
 
+export type RenderFn<P> = (props: P) => React.ReactNode;
+
+// Props for inline content that triggers tooltip
 export interface InlineProps {
   onFocus: React.FocusEventHandler<any>;
   onBlur: React.FocusEventHandler<any>;
@@ -15,36 +17,8 @@ export interface InlineProps {
   onMouseOut: React.MouseEventHandler<any>;
 }
 
-// Classnames for tooltip parts, to allow more styling customization
-export interface Classnames {
-
-  // Container wraps the entire tooltip.
-  container: string;
-
-  // Div around actual tooltip content. Gets shifted based on screen
-  // position.
-  content: string;
-
-  // Div around the arrow on our tooltip
-  arrow: string;
-
-  // Applied to tooltip container depending on whether tooltip is above
-  // or below the reference element
-  top: string;
-  bottom: string;
-}
-
-export interface Opts<P> {
-  id?: string|((props: P) => string);
-  classNames?: Partial<Classnames>;
-  inline: Component<P & InlineProps>;
-  append: Component<P>;
-}
-
-export interface State {
-  active: boolean;
-}
-
+// Is tooltip above or below inline content?
+export type VPos = 'top'|'bottom';
 
 /*
   Tip component for actual floating tooltip - responsible for repositioning
@@ -56,122 +30,176 @@ export interface State {
   appropriately. Arrow always remains centered on container element though.
   If top clips viewport, move tooltip below element.
 */
-export interface TipProps {
-  classNames: Classnames;
+export interface WrapperProps {
   refElm: Element;
-  children: React.ReactNode;
+  tip: RenderFn<VPos>;
+  arrow?: RenderFn<VPos>;
 }
 
-export class Tip extends React.Component<TipProps, {}> {
-  // _container: HTMLDivElement|null;
+/*
+  TooltipWrapper may be rendered twice (inital + offset fix). Track passCount
+  so we know if we're in the second stage and track any offsets from previous
+  nudges to get tooltip in the right place.
+*/
+export interface WrapperState {
+  passCount: number;
 
-  render() {
-    let { left, right, top, width } = relativeToDocument(this.props.refElm);
-    let { width: viewportWidth } = getViewportWidth();
+  // Set after render if correction needed
+  vPos?: VPos;
+  hOffset?: { left: number; }|{ right: number; };
+}
 
-    // Use distance from right if less than right for positioning.
-    let hStyle: React.CSSProperties = { left: left + (width / 2) };
-    let transformX = '-50%';
-    if (right < left) {
-      hStyle = { right: right + (width / 2) };
-      transformX = '50%';
-    }
-    return <div
-      style={{
-        ...hStyle,
-        position: 'absolute',
-        top,
-        transform: `translate(${transformX}, -100%)`,
-      }}
-    >
-      { this.props.children }
-    </div>;
+export class TooltipWrapper extends React.Component<
+  WrapperProps,
+  WrapperState
+> {
+  _tip: HTMLDivElement|null = null;
+
+  constructor(props: WrapperProps) {
+    super(props);
+    this.state = { passCount: 0 };
   }
 
-  // componentDidMount() {
-  //   this.updatePos();
-  // }
+  componentWillReceiveProps() {
+    this.setState({ passCount: 0 });
+  }
 
-  // componentDidUpdate() {
-  //   this.updatePos();
-  // }
+  render() {
+    let {
+      left, right, top,
+      width, height
+    } = relativeToDocument(this.props.refElm);
 
-  // updatePos() {
-  //   if (this._container) {
-  //     // let rect = this._container.getBoundingClientRect();
-  //     // if (rect.left < 0) {
-  //     //   //
-  //     // }
-  //   }
-  // }
+    // Render above or below content?
+    let vPos = this.state.vPos || 'top';
+    let translateY = vPos === 'top' ? '-100%' : (height + 'px');
+
+    // Center above element. Use distance from right if less than
+    // left for positioning.
+    let hOffset: { left: number; }|{ right: number; };
+    let translateX: string;
+    if (left <= right) {
+      hOffset = { left: left + (width / 2 ) };
+      translateX = '-50%';
+    }
+    else {
+      hOffset = { right: right + (width / 2 ) };
+      translateX = '50%';
+    }
+
+    // Arrow is always horizontally centered on inline element
+    let arrowStyle: React.CSSProperties = {
+      ...hOffset,
+      position: 'absolute',
+      top,
+      transform: `translate(${translateX}, ${translateY})`,
+      margin: 0
+    };
+
+    // Actual tip content can be adjusted based on state
+    let tipStyle = this.state.hOffset ? {
+      ...arrowStyle,
+      ...this.state.hOffset,
+      transform: `translate(0, ${translateY})`
+    } : { ...arrowStyle };
+
+    return [
+      <div key="tip" ref={c => this._tip = c} style={tipStyle}>
+        { this.props.tip(vPos) }
+      </div>,
+
+      this.props.arrow ? <div key="arrow" style={arrowStyle}>
+        { this.props.arrow(vPos) }
+      </div> : null
+    ] as any; // Pending fragment type support for React v16
+  }
+
+  componentDidMount() {
+    this.updatePos();
+  }
+
+  componentDidUpdate() {
+    this.updatePos();
+  }
+
+  updatePos() {
+    if (this._tip && !this.state.passCount) {
+      let { width: vw, height: vh } = getViewportSize();
+      let { left, right, top, bottom } = this._tip.getBoundingClientRect();
+
+      // Horizontal
+      let hOffset: WrapperState['hOffset'];
+      if (left < 0) {
+        hOffset = { left: 0 };
+      } else if (right > vw) {
+        hOffset = { right: 0 };
+      }
+
+      // Vertical
+      let vPos: WrapperState['vPos'];
+      if (top < 0) {
+        vPos = 'bottom';
+      } else if (bottom > vh) {
+        vPos = 'top';
+      }
+
+      // Update only if applicable
+      if (hOffset || vPos) {
+        this.setState({
+          passCount: 1,
+          ...(hOffset && { hOffset }),
+          ...(vPos && { vPos })
+        });
+      }
+    }
+  }
 }
 
+// Props + state for the overall tooltip component
+export interface Props {
+  id?: string;
+  inline: RenderFn<InlineProps>;
+  tip: RenderFn<VPos>;
+  arrow?: RenderFn<VPos>;
+}
 
-// Default classnames
-const DEFAULT_CLASSNAMES: Classnames = {
-  container: 'tooltip-container',
-  content: 'tooltip-content',
-  arrow: 'tooltip-arrow',
-  top: 'top',
-  bottom: 'bottom'
-};
+export interface State {
+  active: boolean;
+}
 
-// HOC
-export default function<P>(opts: Opts<P>): React.ComponentClass<P> {
+export class Tooltip extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = { active: false };
 
-  // Needed for absolute positioning of append element (can be body
-  // too, but just check it's consistent with renderAppend)
-  document.documentElement.style.position = 'relative';
+    // Needed for absolute positioning of append element (can be body
+    // too, but just check it's consistent with renderAppend)
+    document.documentElement.style.position = 'relative';
+  }
 
-  // Typecast to avoid this error
-  // (https://github.com/Microsoft/TypeScript/issues/15019)
-  // Related: (https://github.com/Microsoft/TypeScript/issues/14107)
-  const inlineElm = opts.inline as React.ComponentClass<P & InlineProps>;
-  const appendElm = opts.append as React.ComponentClass<P>;
-  const tooltipClassnames = {
-    ...DEFAULT_CLASSNAMES,
-    ...(opts.classNames || {})
-  };
+  render() {
+    return refElm({
+      id: this.props.id,
 
-  return class Tooltip extends React.Component<P, State> {
-    // The wrapped RefElm component. Important to maintain reference so
-    // that re-renders don't unmount the prior component.
-    protected refElmComponent: React.ComponentClass<P>;
-
-    constructor(props: P) {
-      super(props);
-      this.state = { active: false };
-      this.refElmComponent = refElm({
-        id: opts.id,
-        inline: this.renderInline,
-        append: this.renderTooltip
-      });
-    }
-
-    render() {
-      return React.createElement(this.refElmComponent, this.props);
-    }
-
-    renderInline = (props: P) => {
-      return React.createElement(inlineElm, {
-        // Type as any to get around
-        // https://github.com/Microsoft/TypeScript/issues/10727
-        ...(props as any),
+      inline: this.props.inline({
         onMouseOver: this.activate,
         onMouseOut: this.deactivate,
         onFocus: this.activate,
-        onBlur: this.deactivate,
-      });
-    }
+        onBlur: this.deactivate
+      }),
 
-    renderTooltip = ({ refElm, ownProps }: RefElmProps<P>) => {
-      return this.state.active ?
-        <Tip refElm={refElm} classNames={tooltipClassnames}>
-          { React.createElement(appendElm, ownProps) }
-        </Tip> : null;
-    }
+      append: refElm => this.state.active ? <TooltipWrapper
+        refElm={refElm}
+        tip={this.props.tip}
+        arrow={this.props.arrow}
+      /> : null
+    });
+  }
 
-    activate = () => this.setState({ active: true });
-    deactivate = () => this.setState({ active: false });
-  };
+  activate = () => this.setState({ active: true });
+  deactivate = () => this.setState({ active: false });
+}
+
+export default function(props: Props) {
+  return <Tooltip {...props} />;
 }

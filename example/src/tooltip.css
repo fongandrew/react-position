@@ -1,5 +1,24 @@
 .tooltip {
-  padding: 1rem;
+  padding: 0.5rem;
   background: #333;
   color: white;
+}
+
+.tooltip {
+  margin: 0.5rem;
+}
+
+.tooltip-arrow {
+  border-width: 0.5rem;
+  border-style: solid;
+}
+
+.tooltip-arrow.top {
+  border-color: #333 transparent transparent transparent;
+  transform: translateY(0.42rem);
+}
+
+.tooltip-arrow.bottom {
+  border-color: transparent transparent #333 transparent;
+  transform: translateY(-0.42rem);
 }
