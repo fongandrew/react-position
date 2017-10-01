@@ -7,9 +7,6 @@ import Append from './append';
 import RefElm from './ref-elm';
 import Tooltip from './tooltip';
 
-// Needed for absolute positioning of append elements
-document.documentElement.style.position = 'relative';
-
 class App extends React.Component<{}, {}> {
   render() {
     return <div>
@@ -40,8 +37,7 @@ class App extends React.Component<{}, {}> {
       <div className="demo-container">
         <h2>Tooltip</h2>
         <p>
-          Hover over <Tooltip><em>this text here</em></Tooltip> to trigger
-          a tooltip.
+          Hover over the text below to trigger a tooltip.
         </p>
         <div style={{ textAlign: 'center' }}>
           <span style={{ float: 'left' }}>
@@ -55,7 +51,6 @@ class App extends React.Component<{}, {}> {
           </span>
         </div>
       </div>
-
     </div>;
   }
 }

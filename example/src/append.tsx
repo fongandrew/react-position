@@ -1,19 +1,5 @@
 import * as React from 'react';
-import append from 'react-append';
-
-interface Props {
-  active: boolean;
-  onToggle: () => void;
-}
-
-const AppendContent = append({
-  inline: (p: Props) => <button onClick={p.onToggle}>
-    { p.active ? 'Hide appended content' : 'Show appended content '}
-  </button>,
-  append: (p: Props) => p.active ? <div style={{ margin: '1rem' }}>
-    This should append at the end of the body.
-  </div> : null
-});
+import Append from 'react-append';
 
 interface State {
   active: boolean;
@@ -26,9 +12,21 @@ export default class AppendContainer extends React.Component<{}, State> {
   }
 
   render() {
-    return <AppendContent
-      active={this.state.active}
-      onToggle={() => this.setState({ active: !this.state.active })}
-    />;
+    return <div>
+      <button onClick={this.toggle}>
+        { this.state.active ?
+          'Hide appended content' :
+          'Show appended content '}
+      </button>
+
+      { this.state.active ?
+        <Append>
+          <div style={{ margin: '1rem' }}>
+            This should append at the end of the body.
+          </div>
+        </Append> : null }
+    </div>;
   }
+
+  toggle = () => this.setState({ active: !this.state.active });
 }
