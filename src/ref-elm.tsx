@@ -1,5 +1,5 @@
 /*
-  HOC to create an appended element that depends on the presence of an
+  Component to create an appended element that depends on the presence of an
   inline element (e.g. for positioning).
 */
 
@@ -10,6 +10,14 @@ import Append, { Props as AppendProps } from './append';
 // Props for RefElm component
 export interface Props {
   id?: string;
+
+  /*
+    NB: An earlier variant of this tried using component classes rather than
+    actual elements and functions. This wasn't a good idea because it's too
+    easy to create anonymous functions as stateless components on each
+    render loop, which breaks React's reconciliation (and certain event
+    handlers, like onMouseOut).
+  */
   inline: React.ReactNode;
   append: (refElm: Element) => React.ReactNode;
 }
