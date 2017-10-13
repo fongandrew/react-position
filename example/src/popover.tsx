@@ -1,7 +1,7 @@
-require('./popover.css');
+require('./tooltip.css');
 import * as React from 'react';
 import refElm from 'react-append/lib/ref-elm';
-import Popover, { Position, Align } from 'react-append/lib/popover';
+import popover, { Position, Align } from 'react-append/lib/popover';
 
 interface Props {
   position: Position;
@@ -26,24 +26,22 @@ export default class PopoverBtn extends React.Component<Props, State> {
   }
 
   renderBtn() {
+    let { children, ...props } = this.props;
     return refElm({
-      inline:  <button onClick={this.toggle}>
-        { this.props.children }
-      </button>,
-
-      append: refElm => this.state.active ? <Popover
-        adjustPos={true}
-        adjustAlign={true}
-        refElm={refElm}
-        content={pos => <div className={`popover ${pos}`}>
+      inline:  <button onClick={this.toggle}>{ children }</button>,
+      append: refElm => this.state.active ? popover({
+        adjustPos: true,
+        adjustAlign: true,
+        refElm,
+        content: pos => <div className={`tooltip ${pos}`}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
           ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
           aliquip ex ea commodo consequat.
-        </div>}
-        arrow={pos => <div className={`popover-arrow ${pos}`}>{' '}</div>}
-        { ...this.props }
-      /> : null
+        </div>,
+        arrow: pos => <div className={`tooltip-arrow ${pos}`}>{' '}</div>,
+        ...props
+      }) : null
     });
   }
 

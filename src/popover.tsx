@@ -101,22 +101,26 @@ export const getAlignStyle = function(
   }
 };
 
-export interface Props {
-  // Element being pointed to
-  refElm: Element;
+// Options frequently used by other components
+export interface PopoverOpts {
+  // How to render arrow pointing to refElm
+  arrow?: (pos: Position) => React.ReactNode;
+
+  // Position and alignment (act as defaults if adjustPos / adjustAlign set)
+  position?: Position;
+  align?: Align;
 
   // Automatically adjust popover location?
   adjustPos?: boolean;
   adjustAlign?: boolean;
+}
+
+export interface Props extends PopoverOpts {
+  // Element being pointed to
+  refElm: Element;
 
   // Main popover content to render
   content: (pos: Position) => React.ReactNode;
-
-  // How to render arrow pointing to refElm
-  arrow?: (pos: Position) => React.ReactNode;
-
-  position?: Position;
-  align?: Align;
 }
 
 export interface State {
@@ -125,7 +129,7 @@ export interface State {
   alignStyle?: Style;       // Offset from alignment
 }
 
-export default class Popover extends React.Component<Props, State> {
+export class Popover extends React.Component<Props, State> {
   // Refs
   _content: HTMLDivElement|null = null;
 
@@ -250,3 +254,6 @@ export default class Popover extends React.Component<Props, State> {
   }
 }
 
+export default function(props: Props) {
+  return <Popover {...props} />;
+}

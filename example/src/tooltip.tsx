@@ -7,10 +7,10 @@ export default function(p: React.HTMLAttributes<HTMLSpanElement>) {
   return tooltip({
     inline: props => <span {...props}>{ children }</span>,
 
-    tip: vPos => <div className={`tooltip ${vPos}`}>
+    tooltip: pos => <div className={`tooltip ${pos}`}>
       Hello world. I am a tooltip.
     </div>,
 
-    arrow: vPos => <div className={`tooltip-arrow ${vPos}`}>{' '}</div>
+    arrow: pos => <div className={`tooltip-arrow ${pos}`}>{' '}</div>
   });
 }
