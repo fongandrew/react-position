@@ -62,15 +62,8 @@ export const relativeViewportOffset = () => relativeOffset(
   documentRect()
 );
 
-// Get viewport dimensions
-export const viewportSize = () => {
-  const width = Math.max(
-    document.documentElement.clientWidth,
-    window.innerWidth || 0
-  );
-  const height = Math.max(
-    document.documentElement.clientHeight,
-    window.innerHeight || 0
-  );
-  return { width, height };
-};
+// Get viewport dimensions - ignore scrollbars if possible
+export const viewportSize = () => ({
+  width: document.documentElement.clientWidth || window.innerWidth || 0,
+  height: document.documentElement.clientHeight || window.innerHeight || 0
+});
