@@ -2,10 +2,10 @@
 		"name": "react-append",
 		"repository": {
 				"type": "git",
-				"url": "https://github.com/esperco/react-append.git"
+				"url": "https://github.com/fongandrew/react-append.git"
 		},
 		"author": "Andrew Fong <id@andrewfong.com>",
-		"homepage": "https://github.com/esperco/react-append",
+		"homepage": "https://github.com/fongandrew/react-append",
 		"license": "MIT",
 		"devDependencies": {
 				"@types/cheerio": "^0.22.2",
