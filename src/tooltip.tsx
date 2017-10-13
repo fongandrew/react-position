@@ -1,10 +1,11 @@
 /*
-  HOC for mouseover / mouseout tooltip centered above content. Automatically
-  shifts left / right or below content to avoid going out of window bounds.
+  Component for mouseover / mouseout tooltip centered above content.
+  Automatically shifts left / right or below content to avoid going out of
+  window bounds.
 */
 
 import * as React from 'react';
-import { relativeToDocument, getViewportSize } from './position';
+import { documentOffset, viewportSize } from './position';
 import refElm from './ref-elm';
 
 export type RenderFn<P> = (props: P) => React.ReactNode;
@@ -68,7 +69,7 @@ export class TooltipWrapper extends React.Component<
     let {
       left, right, top,
       width, height
-    } = relativeToDocument(this.props.refElm);
+    } = documentOffset(this.props.refElm);
 
     // Render above or below content?
     let vPos = this.state.vPos || 'top';
@@ -124,7 +125,7 @@ export class TooltipWrapper extends React.Component<
 
   updatePos() {
     if (this._tip && !this.state.passCount) {
-      let { width: vw, height: vh } = getViewportSize();
+      let { width: vw, height: vh } = viewportSize();
       let { left, right, top, bottom } = this._tip.getBoundingClientRect();
 
       // Horizontal

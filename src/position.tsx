@@ -2,60 +2,73 @@
   Positioning helpers
 */
 
-// Returns (absolute) position vals of element relative to documentElement
-export const relativeToDocument = (elm: Element) => {
-  return relativeToParent(elm, document.documentElement);
-};
+/*
+  This interface is essentially the same as a ClientRect, but its semantic
+  meaning is different (see relativeOffset below)
+*/
+export interface Offset {
+  top: number;
+  left: number;
+  height: number;
+  width: number;
+  right: number;
+  bottom: number;
+}
 
-// Returns (absolute) position vals of element relative to some parent
-export const relativeToParent = (elm: Element, parent: Element) => {
-  let rect = elm.getBoundingClientRect();
-  let parentRect = parent.getBoundingClientRect();
+/*
+  Returns a child's position as an offset of its parent. Note that while the
+  functions takes ClientRect's, the meanings of right / bottom in the returned
+  value are different than in a ClientRect -- e.g., here 'right' means distance
+  of the element's right edge from its parent, whereas a ClientRect, it means
+  distance of the right edge of the element from the left of the viewport.
+  Ditto for bottom.
+*/
+export const relativeOffset = (child: ClientRect, parent: ClientRect) => ({
+  top: child.top - parent.top,
+  left: child.left - parent.left,
+  height: child.height,
+  width: child.width,
+  right: parent.right - child.right,
+  bottom: parent.bottom - child.bottom
+});
+
+export const documentRect = () =>
+  document.documentElement.getBoundingClientRect();
+
+export const viewportRect = () => {
+  const { width, height } = viewportSize();
   return {
-    top: rect.top - parentRect.top,
-    left: rect.left - parentRect.left,
-    height: rect.height,
-    width: rect.width,
-
-    /*
-      Note that the meanings of right / bottom  here are different than
-      in getBoundingClientRect -- e.g., here 'right' means distance
-      of the element's right edge from its parent, whereas in
-      getBoundingClientRect, it means distance of the right edge of
-      the element from the left of the viewport. Ditto for bottom.
-    */
-    right: parentRect.right - rect.right,
-    bottom: parentRect.bottom - rect.bottom
+    top: 0,
+    bottom: height,
+    left: 0,
+    right: width,
+    width,
+    height
   };
 };
 
-// Returns position values as percentage of viewport
-export const relativeToViewportPct = (elm: Element) => {
-  let rect = elm.getBoundingClientRect();
-  let { width: viewportWidth, height: viewportHeight } = getViewportSize();
-  return {
-    top: rect.top / viewportHeight,
-    height: rect.height / viewportHeight,
-    left: rect.left / viewportWidth,
-    width: rect.width / viewportWidth,
+export const documentOffset = (elm: Element) => relativeOffset(
+  elm.getBoundingClientRect(),
+  documentRect()
+);
 
-    /*
-      Similar to `relativeToParent`, right / bottom refer to distances of the
-      right / bottom edges of the element from the right / bottom edges of the
-      viewport, *not* what they normally mean in getBoundingClientRect.
-    */
-    right: (viewportWidth - rect.right) / viewportWidth,
-    bottom: (viewportHeight - rect.bottom) / viewportHeight
-  };
-};
+export const viewportOffset = (elm: Element) => relativeOffset(
+  elm.getBoundingClientRect(),
+  viewportRect()
+);
+
+export const relativeViewportOffset = () => relativeOffset(
+  viewportRect(),
+  documentRect()
+);
 
 // Get viewport dimensions
-export const getViewportSize = () => {
-  let width = Math.max(
+export const viewportSize = () => {
+  const width = Math.max(
     document.documentElement.clientWidth,
     window.innerWidth || 0
   );
-  let height = Math.max(
+  const height = Math.max(
     document.documentElement.clientHeight,
     window.innerHeight || 0
   );

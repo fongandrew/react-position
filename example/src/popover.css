@@ -1,0 +1,47 @@
+.popover {
+  padding: 0.5rem;
+  background: #333;
+  color: white;
+  max-width: 300px;
+}
+
+.popover.top {
+  margin-bottom: 0.5rem;
+}
+
+.popover.bottom {
+  margin-top: 0.5rem;
+}
+
+.popover.left {
+  margin-right: 0.5rem;
+}
+
+.popover.right {
+  margin-left: 0.5rem;
+}
+
+.popover-arrow {
+  border-width: 0.5rem;
+  border-style: solid;
+}
+
+.popover-arrow.top {
+  border-color: #333 transparent transparent transparent;
+  transform: translateY(0.42rem);
+}
+
+.popover-arrow.bottom {
+  border-color: transparent transparent #333 transparent;
+  transform: translateY(-0.42rem);
+}
+
+.popover-arrow.left {
+  border-color: transparent transparent transparent #333;
+  transform: translateX(0.42rem);
+}
+
+.popover-arrow.right {
+  border-color: transparent #333 transparent transparent;
+  transform: translateX(-0.42rem);
+}

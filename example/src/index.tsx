@@ -5,6 +5,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import Append from './append';
 import RefElm from './ref-elm';
+import Popover from './popover';
 import Tooltip from './tooltip';
 
 class App extends React.Component<{}, {}> {
@@ -35,6 +36,29 @@ class App extends React.Component<{}, {}> {
       </div>
 
       <div className="demo-container">
+        <h2>Popover</h2>
+        <p>
+          These buttons open popovers positioned around them. These popovers
+          auto-adjust their positioning when the popover is near the edge
+          of the screen to try to stay in view as much as possible.
+        </p>
+        <div>
+          <Popover position="top" align="left">Top / Left</Popover>
+          <Popover position="top" align="center">Top / Center</Popover>
+          <Popover position="top" align="right">Top / Right</Popover>
+          <Popover position="left" align="top">Left / Top</Popover>
+          <Popover position="left" align="center">Left / Center</Popover>
+          <Popover position="left" align="bottom">Left / Bottom</Popover>
+          <Popover position="right" align="top">Right / Top</Popover>
+          <Popover position="right" align="center">Right / Center</Popover>
+          <Popover position="right" align="bottom">Right / Bottom</Popover>
+          <Popover position="bottom" align="left">Bottom / Left</Popover>
+          <Popover position="bottom" align="center">Bottom / Center</Popover>
+          <Popover position="bottom" align="right">Bottom / Right</Popover>
+        </div>
+      </div>
+
+      <div className="demo-container">
         <h2>Tooltip</h2>
         <p>
           Hover over the text below to trigger a tooltip.
@@ -51,6 +75,9 @@ class App extends React.Component<{}, {}> {
           </span>
         </div>
       </div>
+
+      {/* So we can scroll demo area around to test auto-adjust */}
+      <div style={{ height: '100vh' }} />
     </div>;
   }
 }

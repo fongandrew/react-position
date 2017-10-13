@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { relativeToDocument } from 'react-append/lib/position';
+import { documentOffset } from 'react-append/lib/position';
 import refElm from 'react-append/lib/ref-elm';
 
 
@@ -22,7 +22,7 @@ export default class RefElmContainer extends React.Component<{}, State> {
       append: elm => this.state.active ?
         <div style={{
           position: 'absolute',
-          ...relativeToDocument(elm)
+          ...documentOffset(elm)
         }}>
           <div style={{
             position: 'absolute',
