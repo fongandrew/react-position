@@ -12,6 +12,10 @@ import {
   viewportOffset,
   relativeViewportOffset
 } from './position';
+import {
+  addListener as addAdjustListener,
+  removeListener as removeAdjustListener
+} from './adjust-offset';
 
 // Convenience type
 export type Style = React.CSSProperties;
@@ -133,6 +137,11 @@ export class Popover extends React.Component<Props, State> {
   // Refs
   _content: HTMLDivElement|null = null;
 
+  // Offset of viewport for alignment purposes -- gets captured early.
+  // We capture here before render because render may result in object
+  // that changes dimensions of document (and therefore relative offset)
+  alignOffset: Offset = relativeViewportOffset();
+
   constructor(props: Props) {
     super(props);
     this.state = {};
@@ -145,6 +154,10 @@ export class Popover extends React.Component<Props, State> {
       posStyle: undefined,
       alignStyle: undefined
     });
+  }
+
+  componentWillUpdate() {
+    this.alignOffset = relativeViewportOffset();
   }
 
   // Position of popover
@@ -193,10 +206,15 @@ export class Popover extends React.Component<Props, State> {
 
   componentDidMount() {
     this.updateStyles();
+    addAdjustListener(this.adjustViewport);
   }
 
   componentDidUpdate() {
     this.updateStyles();
+  }
+
+  componentWillUnmount() {
+    removeAdjustListener(this.adjustViewport);
   }
 
   // Update styling on _content element
@@ -214,20 +232,19 @@ export class Popover extends React.Component<Props, State> {
     }
 
     // Adjust alignment
-    const alignOffsets = relativeViewportOffset();
     if (this.props.adjustAlign && !this.state.alignStyle) {
       if (pos === 'top' || pos === 'bottom') {
         if (contentOffset.left < 0) {
-          this.setState({ alignStyle: { left: alignOffsets.left } });
+          this.setState({ alignStyle: { left: this.alignOffset.left } });
         } else if (contentOffset.right < 0) {
-          this.setState({ alignStyle: { right: alignOffsets.right } });
+          this.setState({ alignStyle: { right: this.alignOffset.right } });
         }
       }
       else {
         if (contentOffset.top < 0) {
-          this.setState({ alignStyle: { top: alignOffsets.top } });
+          this.setState({ alignStyle: { top: this.alignOffset.top } });
         } else if (contentOffset.bottom < 0) {
-          this.setState({ alignStyle: { bottom: alignOffsets.bottom } });
+          this.setState({ alignStyle: { bottom: this.alignOffset.bottom } });
         }
       }
     }
@@ -251,6 +268,17 @@ export class Popover extends React.Component<Props, State> {
     }
 
     return false;
+  }
+
+  // Re-adjust position / align on resize and scroll
+  adjustViewport = () => {
+    if (this.props.adjustAlign || this.props.adjustPos) {
+      this.setState({
+        position: undefined,
+        posStyle: undefined,
+        alignStyle: undefined
+      });
+    }
   }
 }
 
