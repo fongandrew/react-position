@@ -8,9 +8,10 @@
 		"homepage": "https://github.com/fongandrew/react-append",
 		"license": "MIT",
 		"devDependencies": {
-				"@types/cheerio": "^0.22.2",
+				"@types/enzyme": "^2.8.12",
 				"@types/jsdom": "^11.0.2",
-				"@types/react": "^16.0.7",
+				"@types/react": "^16.0.10",
+				"@types/react-dom": "^16.0.2",
 				"@types/sinon": "^2.3.4",
 				"@types/tape": "^4.2.30",
 				"autoprefixer": "^7.1.4",

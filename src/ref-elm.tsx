@@ -6,6 +6,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import Append, { Props as AppendProps } from './append';
+import { toElement } from './types';
 
 // Props for RefElm component
 export interface Props {
@@ -40,7 +41,7 @@ export class InlineWrapper extends React.Component<{
   }
 
   render() {
-    return this.props.children as any; // TODO: Pending React v16 typing
+    return toElement(this.props.children);
   }
 }
 
@@ -55,7 +56,7 @@ export class AppendWrapper extends React.Component<AppendProps & {
   }
 
   render() {
-    let { passCount, ...props } = this.props;
+    const { passCount, ...props } = this.props;
     return <Append {...props}>
       { this.props.children }
     </Append>;
@@ -78,23 +79,25 @@ export class RefElm extends React.Component<Props, State> {
   }
 
   render() {
-    let { inline, append } = this.props;
-    return [
+    const { inline, append } = this.props;
+    let ret = [
       <InlineWrapper
         key="inline"
         ref={c => this.refElm = c && ReactDOM.findDOMNode(c)}
         passCount={this.state.passCount}
       >
         { inline }
-      </InlineWrapper>,
-
-      this.refElm ? <AppendWrapper
+      </InlineWrapper>
+    ];
+    if (this.refElm) {
+      ret.push(<AppendWrapper
         id={this.props.id} key="append"
         passCount={this.state.passCount}
       >
         { append(this.refElm) }
-      </AppendWrapper> : null
-    ] as any; // TODO: Typecast pending support for fragments in typing
+      </AppendWrapper>);
+    }
+    return ret;
   }
 
   componentDidMount() {

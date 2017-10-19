@@ -31,7 +31,6 @@ export default class Append extends React.Component<Props, State> {
     return ReactDOM.createPortal(
       this.props.children || null,
       getElement(this.state.id),
-      this.state.id
     );
   }
 
