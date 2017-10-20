@@ -1,0 +1,21 @@
+.backdrop {
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.dropdown-menu {
+  z-index: 1001;
+  background: white;
+  padding: 0.5rem;
+  max-width: 400px;
+  margin: 0;
+}
+
+.dropdown-menu.top { margin-bottom: 0.5rem; }
+.dropdown-menu.bottom { margin-top: 0.5rem; }
+.dropdown-menu.left { margin-right: 0.5rem; }
+.dropdown-menu.right { margin-left: 0.5rem; }
+
+nav.dropdown-menu a {
+  display: block;
+}

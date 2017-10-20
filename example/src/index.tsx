@@ -6,6 +6,7 @@ import * as ReactDOM from 'react-dom';
 import Append from './append';
 import RefElm from './ref-elm';
 import Popover from './popover';
+import Dropdown from './dropdown';
 import Tooltip from './tooltip';
 
 class App extends React.Component<{}, {}> {
@@ -72,6 +73,24 @@ class App extends React.Component<{}, {}> {
           </span>
           <span>
             <Tooltip><em>Center Tooltip</em></Tooltip>
+          </span>
+        </div>
+      </div>
+
+      <div className="demo-container">
+        <h2>Dropdown</h2>
+        <p>
+          Click button to trigger dropdown.
+        </p>
+        <div style={{ textAlign: 'center' }}>
+          <span style={{ float: 'left' }}>
+            <Dropdown><em>Left Dropdown</em></Dropdown>
+          </span>
+          <span style={{ float: 'right' }}>
+            <Dropdown><em>Right Dropdown</em></Dropdown>
+          </span>
+          <span>
+            <Dropdown><em>Center Dropdown</em></Dropdown>
           </span>
         </div>
       </div>
