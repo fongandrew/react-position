@@ -151,6 +151,9 @@ export class Popover extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {};
+
+    // Needed for absolute positioning
+    document.documentElement.style.position = 'relative';
   }
 
   componentWillReceiveProps(nextProps: Props) {

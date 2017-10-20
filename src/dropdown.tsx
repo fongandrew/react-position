@@ -49,10 +49,6 @@ export class Dropdown extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = { active: false };
-
-    // Needed for absolute positioning of append element (can be body
-    // too, but just check it's consistent with renderAppend)
-    document.documentElement.style.position = 'relative';
   }
 
   render() {
