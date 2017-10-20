@@ -5,7 +5,6 @@
 */
 
 import * as React from 'react';
-import { documentOffset, viewportSize } from './position';
 import refElm from './ref-elm';
 import popover, { Position, PopoverOpts } from './popover';
 
@@ -17,6 +16,11 @@ export interface InlineProps {
   onMouseOut: React.MouseEventHandler<any>;
 }
 
+export interface TipProps {
+  position: Position;
+  style: React.CSSProperties;
+}
+
 export interface Props extends PopoverOpts {
   id?: string;
 
@@ -24,7 +28,7 @@ export interface Props extends PopoverOpts {
   inline: (props: InlineProps) => React.ReactNode;
 
   // Main tooltip content to render
-  tooltip: (pos: Position) => React.ReactNode;
+  tip: (props: TipProps) => React.ReactNode;
 }
 
 export interface State {
@@ -44,7 +48,7 @@ export class Tooltip extends React.Component<Props, State> {
   }
 
   render() {
-    let { id, inline, tooltip, children, ...popoverProps } = this.props;
+    let { id, inline, tip, children, ...popoverProps } = this.props;
     return refElm({
       id: id || DEFAULT_TOOLTIP_ID,
 
@@ -57,7 +61,7 @@ export class Tooltip extends React.Component<Props, State> {
 
       append: refElm => this.state.active ? popover({
         refElm,
-        content: this.props.tooltip,
+        content: tip,
         adjustAlign: true,
         adjustPos: true,
         position: 'top',

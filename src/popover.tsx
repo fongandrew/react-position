@@ -6,16 +6,18 @@
 */
 
 import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import {
+  addListener as addAdjustListener,
+  removeListener as removeAdjustListener
+} from './adjust-offset';
 import {
   Offset,
   documentOffset,
   viewportOffset,
   relativeViewportOffset
 } from './position';
-import {
-  addListener as addAdjustListener,
-  removeListener as removeAdjustListener
-} from './adjust-offset';
+import { Fragment } from './types';
 
 // Convenience type
 export type Style = React.CSSProperties;
@@ -105,10 +107,17 @@ export const getAlignStyle = function(
   }
 };
 
+export interface ContentProps {
+  position: Position;
+  style: Style;
+}
+
+export type ArrowProps = ContentProps;
+
 // Options frequently used by other components
 export interface PopoverOpts {
   // How to render arrow pointing to refElm
-  arrow?: (pos: Position) => React.ReactNode;
+  arrow?: (props: ArrowProps) => React.ReactNode;
 
   // Position and alignment (act as defaults if adjustPos / adjustAlign set)
   position?: Position;
@@ -124,7 +133,7 @@ export interface Props extends PopoverOpts {
   refElm: Element;
 
   // Main popover content to render
-  content: (pos: Position) => React.ReactNode;
+  content: (props: ContentProps) => React.ReactNode;
 }
 
 export interface State {
@@ -134,9 +143,6 @@ export interface State {
 }
 
 export class Popover extends React.Component<Props, State> {
-  // Refs
-  _content: HTMLDivElement|null = null;
-
   // Offset of viewport for alignment purposes -- gets captured early.
   // We capture here before render because render may result in object
   // that changes dimensions of document (and therefore relative offset)
@@ -166,18 +172,15 @@ export class Popover extends React.Component<Props, State> {
   }
 
   render() {
-    const pos = this.getPos();
+    const position = this.getPos();
     const align = this.props.align || 'center';
     const offset = documentOffset(this.props.refElm);
 
-    const baseStyle: Style = {
-      position: 'absolute',
-      margin: 0
-    };
+    const baseStyle: Style = { position: 'absolute' };
     const posStyle = this.state.posStyle ||
-      getPosStyle(offset, pos);
+      getPosStyle(offset, position);
     const alignStyle = this.state.alignStyle ||
-      getAlignStyle(offset, pos, align);
+      getAlignStyle(offset, position, align);
 
     // Popover alignment can vary to fit in screen
     const contentStyle = {
@@ -190,18 +193,13 @@ export class Popover extends React.Component<Props, State> {
     const arrowStyle: React.CSSProperties = {
       ...baseStyle,
       ...posStyle,
-      ...getAlignStyle(offset, pos, 'center')
+      ...getAlignStyle(offset, position, 'center')
     };
 
-    return [
-      <div key="content" ref={c => this._content = c} style={contentStyle}>
-        { this.props.content(pos) }
-      </div>,
-
-      this.props.arrow ? <div key="arrow" style={arrowStyle}>
-        { this.props.arrow(pos) }
-      </div> : null
-    ] as any; // Pending fragment type support for React v16
+    return <Fragment>
+      { this.props.content({ position, style: contentStyle }) }
+      { this.props.arrow && this.props.arrow({ position, style: arrowStyle }) }
+    </Fragment>;
   }
 
   componentDidMount() {
@@ -219,10 +217,11 @@ export class Popover extends React.Component<Props, State> {
 
   // Update styling on _content element
   updateStyles() {
-    if (!this._content) return;
+    const content = ReactDOM.findDOMNode(this);
+    if (! content) return;
 
     const pos = this.getPos();
-    const contentOffset = viewportOffset(this._content);
+    const contentOffset = viewportOffset(content);
 
     // Adjust position
     if (this.props.adjustPos && !this.state.posStyle) {

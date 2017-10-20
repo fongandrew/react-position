@@ -7,10 +7,14 @@ export default function(p: React.HTMLAttributes<HTMLSpanElement>) {
   return tooltip({
     inline: props => <span {...props}>{ children }</span>,
 
-    tooltip: pos => <div className={`tooltip ${pos}`}>
-      Hello world. I am a tooltip.
-    </div>,
+    tip: ({ position, style }) =>
+      <div style={style} className={`tooltip ${position}`}>
+        Hello world. I am a tooltip.
+      </div>,
 
-    arrow: pos => <div className={`tooltip-arrow ${pos}`}>{' '}</div>
+    arrow: ({ position, style }) =>
+      <div style={style} className="tooltip-arrow-container">
+        <div className={`tooltip-arrow ${position}`}>{' '}</div>
+      </div>
   });
 }

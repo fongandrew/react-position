@@ -33,13 +33,17 @@ export default class PopoverBtn extends React.Component<Props, State> {
         adjustPos: true,
         adjustAlign: true,
         refElm,
-        content: pos => <div className={`tooltip ${pos}`}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-          ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat.
-        </div>,
-        arrow: pos => <div className={`tooltip-arrow ${pos}`}>{' '}</div>,
+        content: ({ position, style }) =>
+          <div style={style} className={`tooltip ${position}`}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat.
+          </div>,
+        arrow: ({ position, style }) =>
+          <div style={style} className="tooltip-arrow-container">
+            <div className={`tooltip-arrow ${position}`}>{' '}</div>
+          </div>,
         ...props
       }) : null
     });

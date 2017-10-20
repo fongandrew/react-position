@@ -13,3 +13,13 @@ export const toElement = function(
   if (typeof node === 'object') return node as React.ReactElement<any>;
   return node;
 };
+
+/*
+  Wrapper component to get around some oddities of React fragments and
+  typing issues.
+*/
+export class Fragment extends React.Component<{}, {}> {
+  render() {
+    return toElement(this.props.children);
+  }
+}

@@ -21,6 +21,10 @@
   margin-left: 0.5rem;
 }
 
+.tooltip-arrow-container {
+  margin-top: 0;
+}
+
 .tooltip-arrow {
   border-width: 0.5rem;
   border-style: solid;
