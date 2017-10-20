@@ -1,6 +1,22 @@
-export { default as Append, Props as AppendProps } from './append';
-export { default as RefElm, Props as RefElmProps } from './ref-elm';
-export { default as Tooltip, Props as TooltipProps } from './tooltip';
+export {
+  default as Append,
+  Props as AppendProps,
+} from './append';
 
-import Append from './append';
-export default Append;
+export {
+  default as refElm,
+  RefElm,
+  Props as RefElmProps
+} from './ref-elm';
+
+export {
+  default as dropdown,
+  Dropdown,
+  Props as DropdownProps
+} from './dropdown';
+
+export {
+  default as tooltip,
+  Tooltip,
+  Props as TooltipProps
+} from './tooltip';
