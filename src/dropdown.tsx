@@ -8,7 +8,7 @@ import * as React from 'react';
 import { viewportOffset } from './position';
 import refElm from './ref-elm';
 import popover, { Position, Align, PopoverOpts } from './popover';
-import { toElement, Fragment } from './types';
+import { Fragment } from './types';
 
 // Props for inline content that triggers tooltip
 export interface InlineProps {
