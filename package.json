@@ -1,5 +1,6 @@
 {
-		"name": "react-append",
+		"name": "react-position",
+		"version": "0.1.0",
 		"repository": {
 				"type": "git",
 				"url": "https://github.com/fongandrew/react-append.git"
@@ -7,6 +8,8 @@
 		"author": "Andrew Fong <id@andrewfong.com>",
 		"homepage": "https://github.com/fongandrew/react-append",
 		"license": "MIT",
+		"main": "lib/index.js",
+		"typings": "./lib/index.d.ts",
 		"devDependencies": {
 				"@types/enzyme": "^2.8.12",
 				"@types/jsdom": "^11.0.2",
@@ -40,5 +43,8 @@
 		"dependencies": {
 				"react-dom": "^16.0.0",
 				"tslib": "^1.7.1"
-		}
+		},
+		"files": [
+			"lib"
+		]
 }
